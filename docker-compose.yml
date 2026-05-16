@@ -1,0 +1,16 @@
+services:
+  taskwarrior-web-portal:
+    image: ghcr.io/furan917/taskwarrior-web-portal-docker:latest
+    container_name: taskwarrior-web-portal
+    environment:
+      - PUID=1000
+      - PGID=1000
+      # Optional: pair with a taskchampion sync server for multi-device sync.
+      # Leave empty to run fully local.
+      - TWC_SERVER_URL=        # e.g. http://192.168.1.10:8007
+      - TWC_PASSPHRASE=        # encryption passphrase — never sent to the server
+    volumes:
+      - ./data:/config
+    ports:
+      - "5050:5050"
+    restart: unless-stopped

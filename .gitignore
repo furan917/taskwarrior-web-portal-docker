@@ -1,0 +1,5 @@
+# Local compose data volume
+/data/
+
+# Pre-built binary copied in for local test builds (not committed)
+/taskwarrior-web-portal

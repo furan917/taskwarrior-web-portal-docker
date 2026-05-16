@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile", "regex"],
+      "automerge": false,
+      "addLabels": ["upstream-update"]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^Dockerfile(\\.local)?$"],
+      "matchStrings": [
+        "ARG TASK_VERSION=(?<currentValue>[\\d.]+)"
+      ],
+      "depNameTemplate": "GothenburgBitFactory/taskwarrior",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver",
+      "extractVersionTemplate": "^v?(?<version>.*)$"
+    }
+  ]
+}

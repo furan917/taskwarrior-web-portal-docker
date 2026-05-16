@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>taskwarrior-web-portal</Name>
+  <Repository>ghcr.io/furan917/taskwarrior-web-portal-docker:latest</Repository>
+  <Registry>https://github.com/furan917/taskwarrior-web-portal-docker/pkgs/container/taskwarrior-web-portal-docker</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://forums.unraid.net/topic/XXXXXX-support-taskwarrior-web-portal/</Support>
+  <Project>https://github.com/furan917/taskwarrior-web-portal</Project>
+  <Overview>A web UI for Taskwarrior 3.x, packaged for Unraid. Browse, create, edit, and complete tasks from your browser without touching the CLI. Task data lives on your Unraid share and is never sent anywhere unless you opt in to sync. Optionally pairs with the taskchampion-sync-server Community App to sync tasks across multiple devices — all encryption happens client-side, the sync server never sees plaintext. Runs fully local with no sync server if preferred.
+
+WARNING: This app has no built-in authentication. It is designed for trusted LAN access only. If you intend to expose it outside your local network, place it behind a reverse proxy with authentication — for example Nginx Proxy Manager with HTTP Basic Auth, or a Cloudflare Tunnel with Authelia or Authentik in front.</Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI>http://[IP]:[PORT:5050]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/furan917/taskwarrior-web-portal-docker/main/taskwarrior-web-portal.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/GothenburgBitFactory/taskwarrior/develop/doc/misc/tw-xl.png</Icon>
+  <ExtraParams>--restart=unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>Taskwarrior 3.x is bundled in the image — nothing to install separately. On first start the container generates a unique client UUID. You can find it in the container log (Unraid Docker tab > Log icon) or on the web portal's config page (cog icon, top right). If you are using the taskchampion-sync-server, copy that UUID into the sync server's CLIENT_ID field and restart the sync server before running your first sync.</Requires>
+
+  <!-- Port -->
+  <Config Name="WebUI Port" Target="5050" Default="5050" Mode="tcp" Description="Host port for the web UI. The default is 5050; change it here if that port is already in use on your server." Type="Port" Display="always" Required="true" Mask="false">5050</Config>
+
+  <!-- Volume -->
+  <Config Name="Config" Target="/config" Default="/mnt/user/appdata/taskwarrior-web-portal" Mode="rw" Description="Persistent storage for your task data, client UUID, and config. Back this path up — it is the only copy of your tasks." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/taskwarrior-web-portal</Config>
+
+  <!-- UID/GID -->
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID the process runs as. Defaults to Unraid's nobody user (99). Set to your own UID (run `id -u` in the Unraid terminal) if you want task files owned by your user account." Type="Variable" Display="always" Required="false" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID the process runs as. Defaults to Unraid's users group (100)." Type="Variable" Display="always" Required="false" Mask="false">100</Config>
+
+  <!-- Sync (optional) -->
+  <Config Name="Sync Server URL" Target="TWC_SERVER_URL" Default="" Mode="" Description="Optional. Full URL of your TaskChampion Sync Server, e.g. http://192.168.1.10:8007. Leave empty to run local-only with no sync." Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Sync Passphrase" Target="TWC_PASSPHRASE" Default="" Mode="" Description="Encryption passphrase for your task data. Required when a Sync Server URL is set. Tasks are encrypted before leaving this container — the sync server never sees plaintext. Use a strong passphrase and store it safely; it cannot be recovered if lost." Type="Variable" Display="always" Required="false" Mask="true"></Config>
+
+</Container>

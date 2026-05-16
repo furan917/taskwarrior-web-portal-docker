@@ -1,0 +1,8 @@
+<CommunityApplications>
+  <Profile>
+    Docker image pairing Taskwarrior 3.x with the taskwarrior-web-portal web UI. Optionally syncs with a TaskChampion Sync Server. Maintained by furan917.
+  </Profile>
+  <Icon>https://raw.githubusercontent.com/GothenburgBitFactory/taskwarrior/develop/doc/misc/tw-xl.png</Icon>
+  <WebPage>https://github.com/furan917/taskwarrior-web-portal</WebPage>
+  <Forum>XXXXXX</Forum>
+</CommunityApplications>
