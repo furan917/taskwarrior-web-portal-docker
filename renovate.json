@@ -19,6 +19,17 @@
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver",
       "extractVersionTemplate": "^v?(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["^Dockerfile(\\.local)?$"],
+      "matchStrings": [
+        "ARG TWP_VERSION=v(?<currentValue>[\\d.]+)"
+      ],
+      "depNameTemplate": "furan917/taskwarrior-web-portal",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver",
+      "extractVersionTemplate": "^v?(?<version>.*)$"
     }
   ]
 }
