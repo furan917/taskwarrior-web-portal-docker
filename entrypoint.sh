@@ -13,15 +13,21 @@ mkdir -p "${CONFIG_DIR}/task" "${CONFIG_DIR}/state"
 # generated once and never changes so existing server-side data stays linked.
 # Print it clearly so the user can add it to their sync server's CLIENT_ID.
 UUID_FILE="${CONFIG_DIR}/client_id"
-if [ ! -f "$UUID_FILE" ]; then
+if [ -n "${TWC_CLIENT_ID:-}" ]; then
+    printf '%s\n' "$TWC_CLIENT_ID" > "$UUID_FILE"
+    UUID="$TWC_CLIENT_ID"
+    echo "info: using client UUID from TWC_CLIENT_ID env var"
+elif [ ! -f "$UUID_FILE" ]; then
     uuid=$(cat /proc/sys/kernel/random/uuid)
     printf '%s\n' "$uuid" > "$UUID_FILE"
     echo "info: first run — generated new client UUID"
+    UUID="$uuid"
+else
+    UUID=$(cat "$UUID_FILE")
 fi
-UUID=$(cat "$UUID_FILE")
 echo "================================================================"
 echo " Taskwarrior client UUID: ${UUID}"
-echo " Add this to your sync server's CLIENT_ID list."
+echo " To share tasks across devices, all devices must use this UUID."
 echo "================================================================"
 
 # --- .taskrc: write from env -------------------------------------------------

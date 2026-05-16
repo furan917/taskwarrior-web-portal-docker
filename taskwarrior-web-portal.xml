@@ -41,5 +41,6 @@ WARNING: This app has no built-in authentication. It is designed for trusted LAN
   <!-- Sync (optional) -->
   <Config Name="Sync Server URL" Target="TWC_SERVER_URL" Default="" Mode="" Description="Optional. Full URL of your TaskChampion Sync Server, e.g. http://192.168.1.10:8007. Leave empty to run local-only with no sync." Type="Variable" Display="always" Required="false" Mask="false"></Config>
   <Config Name="Sync Passphrase" Target="TWC_PASSPHRASE" Default="" Mode="" Description="Encryption passphrase for your task data. Required when a Sync Server URL is set. Tasks are encrypted before leaving this container — the sync server never sees plaintext. Use a strong passphrase and store it safely; it cannot be recovered if lost." Type="Variable" Display="always" Required="false" Mask="true"></Config>
+  <Config Name="Sync Client ID" Target="TWC_CLIENT_ID" Default="" Mode="" Description="The client UUID used to identify your task database on the sync server. IMPORTANT: all devices that should share the same tasks must use the same UUID here. Copy the UUID from your other device's taskrc (rc.sync.server.client_id) or from the web portal config page. Leave empty to auto-generate a new UUID on first start (local-only or first device)." Type="Variable" Display="always" Required="false" Mask="false"></Config>
 
 </Container>
