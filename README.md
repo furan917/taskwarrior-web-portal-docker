@@ -42,6 +42,7 @@ Open `http://localhost:5050` after the container starts.
 | `TWP_BIND_PORT` | `5050` | Port the web portal binds to inside the container |
 | `TWP_DISABLE_HOST_CHECK` | `1` | Set to `0` to enable host/origin allowlist (see Security) |
 | `TWP_ALLOWED_HOSTS` | — | Comma-separated allowed hostnames when `TWP_DISABLE_HOST_CHECK=0` |
+| `TWP_SECURE_COOKIES` | `0` | Set to `1` when behind a TLS-terminating reverse proxy — adds the `Secure` flag to the CSRF cookie so it is only sent over HTTPS |
 
 ## Sync setup
 
