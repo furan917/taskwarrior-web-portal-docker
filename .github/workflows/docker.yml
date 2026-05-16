@@ -36,7 +36,7 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Resolve latest taskwarrior-web-portal release
         id: twp
