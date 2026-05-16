@@ -40,7 +40,7 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release . \
 # ---------------------------------------------------------------------------
 # Stage 2: runtime image
 # ---------------------------------------------------------------------------
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ARG TWP_VERSION=v1.3.4
 ARG TARGETARCH
