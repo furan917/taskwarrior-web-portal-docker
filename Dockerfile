@@ -42,7 +42,7 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release . \
 # ---------------------------------------------------------------------------
 FROM ubuntu:26.04
 
-ARG TWP_VERSION=v1.3.4
+ARG TWP_VERSION=v1.4.0
 ARG TARGETARCH
 
 RUN apt-get update \
