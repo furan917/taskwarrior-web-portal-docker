@@ -34,6 +34,10 @@ WARNING: This app has no built-in authentication. It is designed for trusted LAN
   <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID the process runs as. Defaults to Unraid's nobody user (99). Set to your own UID (run `id -u` in the Unraid terminal) if you want task files owned by your user account." Type="Variable" Display="always" Required="false" Mask="false">99</Config>
   <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID the process runs as. Defaults to Unraid's users group (100)." Type="Variable" Display="always" Required="false" Mask="false">100</Config>
 
+  <!-- Access -->
+  <Config Name="Disable Host Check" Target="TWP_DISABLE_HOST_CHECK" Default="1" Mode="" Description="Set to 1 to disable the host/origin allowlist check. Recommended for Docker deployments where the external hostname or port is not known. Set to 0 and use Allowed Hosts below if you want stricter control." Type="Variable" Display="always" Required="false" Mask="false">1</Config>
+  <Config Name="Allowed Hosts" Target="TWP_ALLOWED_HOSTS" Default="" Mode="" Description="Only used when Disable Host Check is 0. Your Unraid server's LAN IP address, e.g. 192.168.1.10. Separate multiple entries with commas." Type="Variable" Display="always" Required="false" Mask="false"></Config>
+
   <!-- Sync (optional) -->
   <Config Name="Sync Server URL" Target="TWC_SERVER_URL" Default="" Mode="" Description="Optional. Full URL of your TaskChampion Sync Server, e.g. http://192.168.1.10:8007. Leave empty to run local-only with no sync." Type="Variable" Display="always" Required="false" Mask="false"></Config>
   <Config Name="Sync Passphrase" Target="TWC_PASSPHRASE" Default="" Mode="" Description="Encryption passphrase for your task data. Required when a Sync Server URL is set. Tasks are encrypted before leaving this container — the sync server never sees plaintext. Use a strong passphrase and store it safely; it cannot be recovered if lost." Type="Variable" Display="always" Required="false" Mask="true"></Config>

@@ -57,5 +57,6 @@ export TASKRC
 export XDG_STATE_HOME="${CONFIG_DIR}/state"
 export TWP_BIND_HOST="${TWP_BIND_HOST:-0.0.0.0}"
 export TWP_BIND_PORT="${TWP_BIND_PORT:-5050}"
+export TWP_DISABLE_HOST_CHECK="${TWP_DISABLE_HOST_CHECK:-1}"
 
 exec gosu "${PUID}:${PGID}" /usr/local/bin/taskwarrior-web-portal
