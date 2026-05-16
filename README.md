@@ -78,8 +78,26 @@ Everything lives in `/config`:
 | Path | Contents |
 |---|---|
 | `/config/task/` | Taskwarrior task database |
-| `/config/taskrc` | Generated Taskwarrior config (do not hand-edit) |
+| `/config/taskrc` | Taskwarrior config — container block regenerated on start; your settings below the end marker are never touched |
 | `/config/client_id` | Your sync client UUID |
 | `/config/state/` | Sync state |
 
 Back up the entire `/config` mount. The `client_id` file in particular must not be lost if you are using sync — it is the identifier tied to your encrypted data on the server.
+
+### Adding UDA definitions, contexts, and other settings
+
+`/config/taskrc` contains a container-managed block at the top (regenerated on each start) and a user section below the end marker. Add UDA definitions, context definitions, `journal.time`, or any other Taskwarrior settings in the user section — it is never overwritten:
+
+```ini
+# --- container-managed: do not edit between these markers ---
+data.location=/config/task
+# --- end container-managed ---
+
+# Add your own Taskwarrior settings below. This section is never overwritten.
+journal.time=yes
+
+uda.estimate.type=duration
+uda.estimate.label=Estimate
+
+context.work.read=+work
+```

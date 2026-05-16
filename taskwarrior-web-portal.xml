@@ -22,7 +22,7 @@ WARNING: This app has no built-in authentication. It is designed for trusted LAN
   <DateInstalled/>
   <DonateText/>
   <DonateLink/>
-  <Requires>Taskwarrior 3.x is bundled in the image — nothing to install separately. On first start the container generates a unique client UUID. You can find it in the container log (Unraid Docker tab > Log icon) or on the web portal's config page (cog icon, top right). If you are syncing across multiple devices, all devices must use the same UUID — set the Sync Client ID field to match your existing device's UUID so they share the same task database on the server.</Requires>
+  <Requires>Taskwarrior 3.x is bundled in the image — nothing to install separately. On first start the container generates a unique client UUID. You can find it in the container log (Unraid Docker tab > Log icon) or on the web portal's config page (cog icon, top right). If you are syncing across multiple devices, all devices must use the same UUID — set the Sync Client ID field to match your existing device's UUID so they share the same task database on the server. To add UDA definitions, context definitions, journal settings, or any other Taskwarrior settings, edit /config/taskrc — add your settings below the end marker line. The container-managed block at the top of that file is regenerated on each start, but your settings below the marker are never touched.</Requires>
 
   <!-- Port -->
   <Config Name="WebUI Port" Target="5050" Default="5050" Mode="tcp" Description="Host port for the web UI. The default is 5050; change it here if that port is already in use on your server." Type="Port" Display="always" Required="true" Mask="false">5050</Config>

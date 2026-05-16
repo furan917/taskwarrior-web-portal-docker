@@ -11,7 +11,6 @@ mkdir -p "${CONFIG_DIR}/task" "${CONFIG_DIR}/state"
 # --- UUID: generate once, persist to /config/client_id ----------------------
 # The UUID identifies this client to the taskchampion sync server. It is
 # generated once and never changes so existing server-side data stays linked.
-# Print it clearly so the user can add it to their sync server's CLIENT_ID.
 UUID_FILE="${CONFIG_DIR}/client_id"
 if [ -n "${TWC_CLIENT_ID:-}" ]; then
     printf '%s\n' "$TWC_CLIENT_ID" > "$UUID_FILE"
@@ -30,11 +29,20 @@ echo " Taskwarrior client UUID: ${UUID}"
 echo " To share tasks across devices, all devices must use this UUID."
 echo "================================================================"
 
-# --- .taskrc: write from env -------------------------------------------------
-# Always overwritten on container start so env changes are picked up.
-# Sensitive values (encryption_secret) are masked in logs; we never echo them.
+# --- taskrc: container-managed block + user settings in one file -------------
+# Taskwarrior 3.x does not honour settings from include'd files — data.location
+# and sync.* are silently ignored when set via include. Everything must live in
+# the primary taskrc.
+#
+# We protect the container-managed portion with sentinel comments so we can
+# regenerate exactly that block on each start without touching user settings
+# below the end marker.
 TASKRC="${CONFIG_DIR}/taskrc"
-cat > "$TASKRC" <<EOF
+
+# Build the container-managed block
+TMP_BLOCK=$(mktemp)
+cat > "$TMP_BLOCK" <<EOF
+# --- container-managed: do not edit between these markers ---
 data.location=${CONFIG_DIR}/task
 EOF
 
@@ -42,7 +50,7 @@ if [ -n "${TWC_SERVER_URL:-}" ]; then
     if [ -z "${TWC_PASSPHRASE:-}" ]; then
         echo "warning: TWC_SERVER_URL is set but TWC_PASSPHRASE is empty — sync will fail"
     fi
-    cat >> "$TASKRC" <<EOF
+    cat >> "$TMP_BLOCK" <<EOF
 sync.type=taskchampion
 sync.server.url=${TWC_SERVER_URL}
 sync.server.client_id=${UUID}
@@ -52,6 +60,45 @@ EOF
 else
     echo "info: no TWC_SERVER_URL set — running local-only (no sync)"
 fi
+printf '# --- end container-managed ---\n' >> "$TMP_BLOCK"
+
+if [ -f "$TASKRC" ] && grep -q "^# --- container-managed" "$TASKRC" 2>/dev/null; then
+    # Markers present: replace the container block, preserve user content after the end marker
+    TMP_USER=$(mktemp)
+    awk '/^# --- end container-managed ---$/{found=1; next} found{print}' "$TASKRC" > "$TMP_USER"
+    cat "$TMP_BLOCK" > "${TASKRC}.new"
+    cat "$TMP_USER" >> "${TASKRC}.new"
+    mv "${TASKRC}.new" "$TASKRC"
+    rm -f "$TMP_USER"
+    echo "info: updated container-managed settings in taskrc"
+elif [ -f "$TASKRC" ]; then
+    # Old install (no markers): migrate — strip known container-managed keys, prepend block
+    TMP_USER=$(mktemp)
+    grep -vE "^(data\.location|sync\.|include)=" "$TASKRC" > "$TMP_USER" || true
+    cat "$TMP_BLOCK" > "${TASKRC}.new"
+    printf '\n# Add your own Taskwarrior settings below. This section is never overwritten.\n' >> "${TASKRC}.new"
+    cat "$TMP_USER" >> "${TASKRC}.new"
+    mv "${TASKRC}.new" "$TASKRC"
+    rm -f "$TMP_USER"
+    echo "info: migrated taskrc to container-managed markers format"
+else
+    # New install
+    cat "$TMP_BLOCK" > "$TASKRC"
+    cat >> "$TASKRC" <<'EOF'
+
+# Add your own Taskwarrior settings below. This section is never overwritten.
+# Examples:
+#   journal.time=yes
+#   uda.estimate.type=duration
+#   uda.estimate.label=Estimate
+#   context.work.read=+work
+EOF
+    echo "info: created taskrc — add your customisations below the end marker"
+fi
+rm -f "$TMP_BLOCK"
+
+# Clean up taskrc.container left over from a previous version of this image
+rm -f "${CONFIG_DIR}/taskrc.container"
 
 # --- permissions -------------------------------------------------------------
 chown -R "${PUID}:${PGID}" "${CONFIG_DIR}"
