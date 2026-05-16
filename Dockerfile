@@ -42,7 +42,7 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release . \
 # ---------------------------------------------------------------------------
 FROM ubuntu:26.04
 
-ARG TWP_VERSION=v1.4.0
+ARG TWP_VERSION=v1.4.1
 ARG TARGETARCH
 
 RUN apt-get update \
@@ -68,6 +68,8 @@ RUN set -ex; \
         "https://github.com/furan917/taskwarrior-web-portal/releases/download/${TWP_VERSION}/${archive}.tar.gz" \
         | tar -xz --strip-components=1 -C /usr/local/bin "${archive}/taskwarrior-web-portal"; \
     chmod +x /usr/local/bin/taskwarrior-web-portal
+
+ENV TASKRC=/config/taskrc
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

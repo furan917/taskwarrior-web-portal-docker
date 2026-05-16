@@ -40,7 +40,7 @@ if [ -n "${TWC_SERVER_URL:-}" ]; then
 sync.type=taskchampion
 sync.server.url=${TWC_SERVER_URL}
 sync.server.client_id=${UUID}
-sync.server.encryption_secret=${TWC_PASSPHRASE:-}
+sync.encryption_secret=${TWC_PASSPHRASE:-}
 EOF
     echo "info: sync configured to ${TWC_SERVER_URL} with client_id=${UUID}"
 else
