@@ -15,7 +15,7 @@ WARNING: This app has no built-in authentication. It is designed for trusted LAN
   <Category>Productivity: Tools:</Category>
   <WebUI>http://[IP]:[PORT:5050]/</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/furan917/taskwarrior-web-portal-docker/main/taskwarrior-web-portal.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/GothenburgBitFactory/taskwarrior/develop/doc/misc/tw-xl.png</Icon>
+  <Icon>https://avatars.githubusercontent.com/u/7008500</Icon>
   <ExtraParams>--restart=unless-stopped</ExtraParams>
   <PostArgs/>
   <CPUset/>
