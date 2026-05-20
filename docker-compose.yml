@@ -9,6 +9,10 @@ services:
       # Leave empty to run fully local.
       - TWC_SERVER_URL=        # e.g. http://192.168.1.10:8007
       - TWC_PASSPHRASE=        # encryption passphrase — never sent to the server
+      # Optional: absolute path to bugwarrior binary inside the container.
+      # Leave empty to auto-detect. Set if bugwarrior is in a custom location,
+      # e.g. a mounted virtualenv: /venv/bin/bugwarrior
+      - BUGWARRIOR_BIN=
     volumes:
       - ./data:/config
     ports:

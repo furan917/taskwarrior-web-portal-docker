@@ -111,5 +111,8 @@ export XDG_STATE_HOME="${CONFIG_DIR}/state"
 export TWP_BIND_HOST="${TWP_BIND_HOST:-0.0.0.0}"
 export TWP_BIND_PORT="${TWP_BIND_PORT:-5050}"
 export TWP_DISABLE_HOST_CHECK="${TWP_DISABLE_HOST_CHECK:-1}"
+# Optional: absolute path to bugwarrior binary. Empty = auto-detect via PATH
+# and common install locations (~/.local/bin, /usr/local/bin, etc.).
+export BUGWARRIOR_BIN="${BUGWARRIOR_BIN:-}"
 
 exec gosu "${PUID}:${PGID}" /usr/local/bin/taskwarrior-web-portal

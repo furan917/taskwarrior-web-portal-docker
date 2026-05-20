@@ -71,6 +71,13 @@ RUN set -ex; \
 
 ENV TASKRC=/config/taskrc
 
+# Optional: set BUGWARRIOR_BIN to the absolute path of the bugwarrior binary
+# if you have installed it in a custom location or a mounted virtualenv.
+# When unset the portal probes PATH and common install directories
+# (~/.local/bin, /usr/local/bin, etc.) automatically.
+# Example: -e BUGWARRIOR_BIN=/venv/bin/bugwarrior
+ENV BUGWARRIOR_BIN=
+
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
