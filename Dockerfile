@@ -9,7 +9,7 @@
 # required at build time. The rust:bookworm image provides a current stable
 # Rust; we add cmake/clang on top for the C++ layer.
 
-ARG TASK_VERSION=3.4.2
+ARG TASK_VERSION=3.5.0
 
 # ---------------------------------------------------------------------------
 # Stage 1: build Taskwarrior 3.x from source
